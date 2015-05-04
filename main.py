@@ -23,17 +23,14 @@ for (studentid,studentname) in cursor:
     student_name = studentname
 
 #print student_id, student_name
-cursor.close()
-cursor = db.cursor()
-get_unknown_word_ids = "SELECT word_id FROM known_words WHERE student_id = %s" %student_id
+
+get_unknown_word_ids = "SELECT word_id FROM known_words WHERE student_id = %s" % student_id
 cursor.execute(get_unknown_word_ids)
 unknown_word_ids = []
 for word_id in cursor:
     unknown_word_ids.append(word_id)
 #print unknown_word_ids
-cursor.close()
 # query unknown words
-cursor = db.cursor()
 unknown_words=[]
 for id in unknown_word_ids:
     unknown_words_query = "SELECT word FROM word_list WHERE word_id = %s" % id
