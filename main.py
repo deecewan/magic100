@@ -15,12 +15,12 @@ except mysql.connector.Error as err:
 name = raw_input('Enter a student name here: ')
 
 cursor = db.cursor()
-QUERY = "SELECT studentid,studentname FROM students WHERE studentname = '%s'" % name
+QUERY = "SELECT student_id,student_name FROM students WHERE student_name = '%s'" % name
 
 cursor.execute(QUERY)
-for (studentid,studentname) in cursor:
-    student_id = studentid
-    student_name = studentname
+for (id, name) in cursor:
+    student_id = id
+    student_name = name
 
 #print student_id, student_name
 
@@ -39,29 +39,45 @@ for id in unknown_word_ids:
         unknown_words.append(word)
 cursor.close()
 
-print "%s's 5 Unknowns:" % student_name
+print "%s's 5 Unknowns:" % name
 for i in range(5):
     print '%s' % unknown_words[i]
 
-# --SETUP--
+# # --SETUP--
+#
+# #creates all students and their ID's (numbers from 1 to len(students))
+# cursor = db.cursor()
+# num_students = input("How many students do you have?")
+# student_names = []
+# while len(student_names) <= num_students:
+#     student_names.append(input("Please enter each name, followed by enter: "))
+# student_id = 1
+# for name in student_names:
+#     QUERY = "INSERT into students (student_id,student_name) VALUE (%s,%s)" % (student_id,name)
+#     cursor.execute(QUERY)
+#     student_id += 1
+# db.commit()
+# # assumes all words unknown - can be set up correctly later.
+# create_list = input("Add in 100 words for all students? 1 for yes, 2 for no: ")
+# if create_list == 1:
+#     for i in range(1,len(student_names)+1):
+#         for j in range(1,101):
+#             QUERY = "INSERT into known_words (student_id,word_id) VALUE (%s,%s)" % (i,j)
+# cursor.close()
+# db.close()
+# # --SETUP COMPLETE--
 
-#creates all students and their ID's (numbers from 1 to len(students))
-cursor = db.cursor()
-num_students = input("How many students do you have?")
-student_names = []
-while len(student_names) <= num_students:
-    student_names.append(input("Please enter each name, followed by enter: "))
-student_id = 1
-for name in student_names:
-    QUERY = "INSERT into students (student_id,student_name) VALUE (%s,%s)" % (student_id,name)
+# -- Remove Known Words --
+def return_student_id(name):
+    QUERY = "SELECT student_id from students WHERE student_name = %s" % name
+    cursor = db.cursor()
     cursor.execute(QUERY)
-    student_id += 1
-db.commit()
-# assumes all words unknown - can be set up correctly later.
-create_list = input("Add in 100 words for all students? 1 for yes, 2 for no: ")
-if create_list == 1:
-    for i in range(1,len(student_names)+1):
-        for j in range(1,101):
-            QUERY = "INSERT into known_words (student_id,word_id) VALUE (%s,%s)" % (i,j)
-cursor.close()
-db.close()
+    for id in cursor:
+        return id
+
+name = raw_input("Enter Student Name: ")
+print return_student_id(name)
+
+
+
+
