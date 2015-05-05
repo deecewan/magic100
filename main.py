@@ -63,21 +63,39 @@ for i in range(5):
 #     for i in range(1,len(student_names)+1):
 #         for j in range(1,101):
 #             QUERY = "INSERT into known_words (student_id,word_id) VALUE (%s,%s)" % (i,j)
+# db.commit()
 # cursor.close()
 # db.close()
 # # --SETUP COMPLETE--
 
 # -- Remove Known Words --
 def return_student_id(name):
-    QUERY = "SELECT student_id from students WHERE student_name = %s" % name
     cursor = db.cursor()
+    QUERY = "SELECT student_id FROM students WHERE student_name = '%s'" % name
     cursor.execute(QUERY)
     for id in cursor:
-        return id
+        num = id
+    cursor.close()
+    return num
 
-name = raw_input("Enter Student Name: ")
-print return_student_id(name)
-
+# name = raw_input("Enter Student Name: ")
+# student_id = '%d' % return_student_id(name)
+# known_words = raw_input("Enter newly learned words, separated by a comma: ").split(', ')
+# cursor = db.cursor()
+# known_word_id = []
+# for word in known_words:
+#     QUERY = "SELECT word_id FROM word_list WHERE word = '%s'" % word
+#     cursor.execute(QUERY)
+#     for id in cursor:
+#         id = '%s' % id
+#         known_word_id.append(id)
+# cursor.close()
+# cursor = db.cursor()
+# for id in known_word_id:
+#     QUERY = "DELETE FROM known_words WHERE student_id = %s AND word_id = %s" % (student_id,id)
+#     cursor.execute(QUERY)
+# db.commit()
+# cursor.close()
 
 
 
